@@ -1,5 +1,6 @@
 package com.stone.retrofitpost
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import com.stone.retrofitpost.APi.ApiService
@@ -13,21 +14,15 @@ import kotlinx.coroutines.flow.flowOn
 import retrofit2.Response
 import javax.inject.Inject
 
-class MyRepository @Inject constructor(val apiService: ApiService) {
-//    suspend fun getalltodos(): Flow<List<Posts>> = flow {
-//        emit(apiService.GetPosts())
-//    }.flowOn(Dispatchers.IO)
-//
-//
-//    suspend fun popstalltodos(posts: Posts): Flow<Posts> = flow {
-//        emit(apiService.Postdata(posts))
-//    }.flowOn(Dispatchers.IO)
+class MyRepository @Inject constructor(val apiService: ApiService)
+{
     fun getpost()= result {
         apiService.GetPosts()
 }
     fun getposttwo()= result {
         apiService.GetPoststwo()
     }
+
 
 }
 
