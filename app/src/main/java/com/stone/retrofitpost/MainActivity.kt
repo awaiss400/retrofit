@@ -43,26 +43,42 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val scope= rememberCoroutineScope()
-
+val posts by viewModel.myUiState.collectAsState()
+            val isloading by viewModel.isLoading.collectAsState()
+            val iserror by viewModel.isError.collectAsState()
             REtrofitPostTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
 
-  Getdata(viewModel = viewModel)
+//  when{
+//      isloading->{
+//          Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxSize()) {
+//              CircularProgressIndicator()
+//          }
+//      }
+// else->
+
+     Getdata(posts )
+ }
+  }
 
     }
 
-} } } }
+} }
 
 @Composable
-fun Getdata(viewModel: MyViewModel) {
+fun Getdata(apiStates: ApiStates<List<Posts>?>) {
 
-   when(val cc=viewModel.todolistresponse.value){
+   when(apiStates){
     is Success->{
-        Column(Modifier.fillMaxSize().padding(16.dp).background(Color.Cyan)) {
-            Recycler(posts = cc.data!!)
+        Column(
+            Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+                .background(Color.Cyan)) {
+            Recycler(posts = apiStates.data!!)
 
         }
     }
@@ -73,7 +89,7 @@ fun Getdata(viewModel: MyViewModel) {
         }
     }
     is ApiStates.Failure -> {
-        Text(text = (cc .msg))
+        Text(text = (apiStates .msg))
     }
     ApiStates.Loading -> {
         Column(Modifier.fillMaxWidth(),
